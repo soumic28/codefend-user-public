@@ -8,6 +8,17 @@ export const getToken = () => window.localStorage.getItem("token") ?? "";
 /** Set token in localStorage */
 export const setToken = (token) => window.localStorage.setItem("token", token);
 
+/** custom baseApi */
+export const getCustomBaseAPi = () => window.localStorage.getItem("baseApi") ?? "";
+
+/** Set baseApi in localStorage */
+export const setCustomBaseAPi = (baseApi) => window.localStorage.setItem("baseApi", baseApi);
+
+/** delete custom base APi */
+export const deleteCustomBaseAPi = (baseApi) => window.localStorage.removeItem("baseApi");
+
+
+
 /** persist user data in localStorage */
 export const persistUser = (userData = null) =>
     window.localStorage.setItem("user", JSON.stringify(userData));
@@ -103,11 +114,11 @@ export const getCompanyMetric = (resources = [], type) => {
 };
 
 /** Date formatter */
-export const formatDate = (date) => {
+export const formatDate = (date, isNum) => {
     if (!date && typeof Date !== 'Date') return ''
     // const formattedDate = new Date(date).toLocaleDateString().replace(/\//ig, "-")
-    // console.log({ date });
-    const formattedDate = new Date(date).toISOString()
+    const _date = isNum ? parseInt(date) * 1000 : date
+    const formattedDate = new Date(_date).toISOString()
         .split("T")[0]
     return formattedDate
 
@@ -272,3 +283,8 @@ export const isEmptyData = (data) => {
     return Object.values(data).every(item => Boolean(item) == false || item == 0)
 
 }
+
+
+/** is Admin helper */
+
+export const isUserAdmin = (user) => user.access_role === 'admin'
